@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-About this site
+This is my public github site, created 9/28/26
