@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Will Albrecht">
+<meta name="author" content="William Albrecht">
 <meta name="dcterms.date" content="2026-09-29">
 <meta name="description" content="Analysis of NFL attendance data from TidyTuesday">
 
@@ -348,7 +348,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div>
   <div class="description">
-    <p>Analysis of NFL attendance data from TidyTuesday</p>
+    Analysis of NFL attendance data from TidyTuesday
   </div>
 </div>
 
@@ -358,7 +358,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Will Albrecht </p>
+             <p>William Albrecht </p>
           </div>
   </div>
     
@@ -378,7 +378,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>This dataset records weekly and season-total attendance for every NFL team from 2000 to 2019. The plot shows total league attendance by season.</p>
-<p>Each game appears twice in the data, once for each team, so the weekly totals are divided by two.</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -387,13 +386,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>attendance <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv'</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>attendance <span class="sc">|&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">league_total =</span> <span class="fu">sum</span>(weekly_attendance, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> league_total <span class="sc">/</span> <span class="dv">1000000</span>)) <span class="sc">+</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Season"</span>, <span class="at">y =</span> <span class="st">"Total attendance (millions)"</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"NFL total attendance by season, 2000 to 2019"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(year) <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">league_total =</span> <span class="fu">sum</span>(weekly_attendance, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">|&gt;</span> <span class="co">#The data set reports each game's weekly attendance twice, one time for each team that played, so the weekly total attendances are divided by two.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> league_total <span class="sc">/</span> <span class="dv">1000000</span>)) <span class="sc">+</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Season"</span>, <span class="at">y =</span> <span class="st">"Total attendance (millions)"</span>, <span class="at">title =</span> <span class="st">"NFL total attendance by season, 2000 to 2019"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -403,8 +401,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><strong>Data source:</strong> <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-04/readme.md">TidyTuesday, February 4, 2020</a>.</p>
-<p>Original data: Sports Reference LLC. (2020). <em>NFL attendance and team standings, 2000 to 2019</em>. Pro Football Reference. https://www.pro-football-reference.com/years/2019/attendance.htm</p>
+<p>Data source: <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-04/readme.md">TidyTuesday, February 4, 2020</a>.</p>
+<p>Original data: The data comes from the Pro Football Reference website, published by Sports Reference LLC. Each individual year was obtained from each year’s NFL attendance page; see 2019’s attendance data <a href="https://www.pro-football-reference.com/years/2019/attendance.htm">here</a>.</p>
 
 
 
