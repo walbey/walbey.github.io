@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-This is my public GitHub site, created September 28, 2026 for DS002R: Foundations of Data Science in R. The R code for this website is available in its [GitHub repository](https://github.com/walbey/walbey.github.io).
+This is my public GitHub site, created on September 28, 2026. This website was built for the course DS002R: Foundations of Data Science in R, taught by Professor Hardin at Pomona College. The R code used to construct this website is available for your reference in my [GitHub repository](https://github.com/walbey/walbey.github.io).
