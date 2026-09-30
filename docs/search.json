@@ -12,5 +12,19 @@
     "title": "About",
     "section": "",
     "text": "This is my public github site, created 9/28/26"
+  },
+  {
+    "objectID": "bigtech.html",
+    "href": "bigtech.html",
+    "title": "Big Tech Stock Prices",
+    "section": "",
+    "text": "This dataset contains daily prices and trading volume for 14 large tech companies from 2010 onward. The plot below tracks adjusted closing prices for four of them. Adjusted closing prices are the daily closing prices corrected for stock splits and dividends, so prices from different years can be compared directly.\n\n\nCode\nlibrary(tidyverse)\n\nbig_tech &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv')\n\nbig_tech |&gt;\n  filter(stock_symbol == \"AAPL\" | stock_symbol == \"MSFT\" |\n         stock_symbol == \"NVDA\" | stock_symbol == \"AMZN\") |&gt;\n  ggplot(aes(x = date, y = adj_close, color = stock_symbol)) +\n  geom_line() +\n  labs(x = \"Date\", y = \"Adjusted close (USD)\", color = \"Ticker\",\n       title = \"Adjusted closing price, 2010 to 2022\")\n\n\n\n\n\n\n\n\n\nData source: TidyTuesday, February 7, 2023.\nOriginal data: Gower, E. (2023). Big Tech Stock Prices [Data set]. Kaggle. https://www.kaggle.com/datasets/evangower/big-tech-stock-prices (sourced from Yahoo Finance)."
+  },
+  {
+    "objectID": "nfl.html",
+    "href": "nfl.html",
+    "title": "NFL Attendance",
+    "section": "",
+    "text": "This dataset records weekly and season-total attendance for every NFL team from 2000 to 2019. The plot shows total league attendance by season.\nEach game appears twice in the data, once for each team, so the weekly totals are divided by two.\n\n\nCode\nlibrary(tidyverse)\n\nattendance &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')\n\nattendance |&gt;\n  filter(week == 1) |&gt;\n  group_by(year) |&gt;\n  summarize(league_total = sum(total)) |&gt;\n  ggplot(aes(x = year, y = league_total / 1e6)) +\n  geom_line() +\n  geom_point() +\n  labs(x = \"Season\", y = \"Total attendance (millions)\",\n       title = \"NFL total attendance by season, 2000 to 2019\")\n\n\n\n\n\n\n\n\n\nData source: TidyTuesday, February 4, 2020. Original data: Sports Reference LLC. (2020). NFL attendance and team standings, 2000 to 2019. Pro Football Reference. https://www.pro-football-reference.com/years/2019/attendance.htm"
   }
 ]

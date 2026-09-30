@@ -9,7 +9,12 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
-      - tidydata.qmd
+      - text: "Data Viz"
+        menu:
+          - text: "Big Tech Stocks"
+            href: bigtech.qmd
+          - text: "NFL Attendance"
+            href: nfl.qmd
 
 format:
   html:

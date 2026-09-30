@@ -1,0 +1,37 @@
+---
+title: "Big Tech Stock Prices"
+description: |
+  Analysis of Big Tech stock price data from TidyTuesday
+author: Will Albrecht
+date: September 29, 2026
+format:
+  html:
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+This dataset contains daily prices and trading volume for 14 large tech companies
+from 2010 onward. The plot below tracks adjusted closing prices for four of them.
+Adjusted closing prices are the daily closing prices corrected for stock splits and dividends, 
+so prices from different years can be compared directly.
+
+```{r}
+library(tidyverse)
+
+big_tech <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv')
+
+big_tech |>
+  filter(stock_symbol == "AAPL" | stock_symbol == "MSFT" |
+         stock_symbol == "NVDA" | stock_symbol == "AMZN") |>
+  ggplot(aes(x = date, y = adj_close, color = stock_symbol)) +
+  geom_line() +
+  labs(x = "Date", y = "Adjusted close (USD)", color = "Ticker",
+       title = "Adjusted closing price, 2010 to 2022")
+```
+
+**Data source:** [TidyTuesday, February 7, 2023](https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md).
+
+Original data: Gower, E. (2023). *Big Tech Stock Prices* [Data set]. Kaggle.
+https://www.kaggle.com/datasets/evangower/big-tech-stock-prices (sourced from Yahoo Finance).

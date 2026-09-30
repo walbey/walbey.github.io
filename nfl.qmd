@@ -1,0 +1,38 @@
+---
+title: "NFL Attendance"
+description: |
+  Analysis of NFL attendance data from TidyTuesday
+author: Will Albrecht
+date: September 29, 2026
+format:
+  html:
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+This dataset records weekly and season-total attendance for every NFL team
+from 2000 to 2019. The plot shows total league attendance by season.
+
+Each game appears twice in the data, once for each team, so the weekly totals are divided by two.
+
+```{r}
+library(tidyverse)
+
+attendance <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')
+
+attendance |>
+  group_by(year) |>
+  summarize(league_total = sum(weekly_attendance, na.rm = TRUE) / 2) |>
+  ggplot(aes(x = year, y = league_total / 1000000)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "Season", y = "Total attendance (millions)",
+       title = "NFL total attendance by season, 2000 to 2019")
+```
+
+**Data source:** [TidyTuesday, February 4, 2020](https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-04/readme.md).
+
+Original data: Sports Reference LLC. (2020). *NFL attendance and team standings, 2000 to 2019*.
+Pro Football Reference. https://www.pro-football-reference.com/years/2019/attendance.htm
