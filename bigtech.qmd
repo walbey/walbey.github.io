@@ -1,7 +1,7 @@
 ---
 title: "Big Tech Stock Prices"
 description: "Analysis of Big Tech stock price data from TidyTuesday"
-author: Will Albrecht
+author: William Albrecht
 date: September 29, 2026
 format:
   html:
@@ -11,10 +11,7 @@ execute:
   message: false
 ---
 
-This dataset contains daily prices and trading volume for 14 large tech companies
-from 2010 onward. The plot below tracks adjusted closing prices for four of them.
-Adjusted closing prices are the daily closing prices corrected for stock splits and dividends, 
-so prices from different years can be compared directly.
+This dataset contains daily stock prices and trading volume for 14 large tech companies from 2010 to 2023. The line plot below represents the adjusted closing prices for Apple, Microsoft, Nvidia, and Amazon, household tech names with large market capitalizations (the stock prices for these four companies were recorded on 12/29/2022 at the latest). Adjusted closing price is the closing price adjusted for stock splits and dividends issued, so that stock prices can be accurately compared across the observed time frame.
 
 ```{r}
 library(tidyverse)
@@ -22,13 +19,13 @@ library(tidyverse)
 big_tech_stock_prices <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv')
 
 big_tech_stock_prices |>
-    filter(stock_symbol == "AAPL" | stock_symbol == "MSFT" | stock_symbol == "NVDA" | stock_symbol == "AMZN")
+    filter(stock_symbol == "AAPL" | stock_symbol == "MSFT" | stock_symbol == "NVDA" | stock_symbol == "AMZN") |>
     ggplot(aes(x = date, y = adj_close, color = stock_symbol)) + 
-    geom_line() +
-    labs(x = "Dat", y = "Adjusted close price (USD)", color = "Ticker", title = "Adjusted closing price, 2010 to 2022")
+    geom_line(linewidth = 0.4) +
+    labs(x = "Date", y = "Adjusted close price (USD)", color = "Ticker", title = "Adjusted closing price, 2010 to 2022")
 
 ```
 
 Data source: [TidyTuesday, February 7, 2023](https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md).
 
-Original data: Gower, Ethan. (2023). The Big Tech Stock Prices Data set comes from Yahoo Finance and was obtained through [Kaggle](https://www.kaggle.com/datasets/evangower/big-tech-stock-prices)
+Original data: Evan Gower compiled the data in 2023. The Big Tech Stock Prices data set comes from Yahoo Finance and was obtained through [Kaggle](https://www.kaggle.com/datasets/evangower/big-tech-stock-prices).

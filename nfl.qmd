@@ -1,7 +1,7 @@
 ---
 title: "NFL Attendance"
 description: "Analysis of NFL attendance data from TidyTuesday"
-author: Will Albrecht
+author: William Albrecht
 date: September 29, 2026
 format:
   html:
