@@ -2,4 +2,4 @@
 title: "About"
 ---
 
-This is my public github site, created 9/28/26
+This is my public GitHub site, created September 28, 2026, as part of DS002R: Foundations of Data Science in R at Pomona College. The R code for this website is available in its [GitHub repository](https://github.com/walbey/walbey.github.io).

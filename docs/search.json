@@ -4,14 +4,14 @@
     "href": "index.html",
     "title": "William Albrecht",
     "section": "",
-    "text": "I am an undergraduate student at Pomona College studying economics and Data Science. I play Safety for the Pomona-Pitzer Sagehens."
+    "text": "I am an undergraduate student at Pomona College pursuing a major in Economics and a minor in Data Science. I play safety for the Pomona-Pitzer Sagehens. See the Data Viz drop-down menu for brief analyses of NFL attendance and Big Tech stock price datasets."
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "This is my public github site, created 9/28/26"
+    "text": "This is my public GitHub site, created September 28, 2026, as part of DS002R: Foundations of Data Science in R at Pomona College. The R code for this website is available in its GitHub repository."
   },
   {
     "objectID": "bigtech.html",
@@ -25,6 +25,6 @@
     "href": "nfl.html",
     "title": "NFL Attendance",
     "section": "",
-    "text": "This dataset records weekly and season-total attendance for every NFL team from 2000 to 2019. The plot shows total league attendance by season.\nEach game appears twice in the data, once for each team, so the weekly totals are divided by two.\n\n\nCode\nlibrary(tidyverse)\n\nattendance &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')\n\nattendance |&gt;\n  filter(week == 1) |&gt;\n  group_by(year) |&gt;\n  summarize(league_total = sum(total)) |&gt;\n  ggplot(aes(x = year, y = league_total / 1e6)) +\n  geom_line() +\n  geom_point() +\n  labs(x = \"Season\", y = \"Total attendance (millions)\",\n       title = \"NFL total attendance by season, 2000 to 2019\")\n\n\n\n\n\n\n\n\n\nData source: TidyTuesday, February 4, 2020. Original data: Sports Reference LLC. (2020). NFL attendance and team standings, 2000 to 2019. Pro Football Reference. https://www.pro-football-reference.com/years/2019/attendance.htm"
+    "text": "This dataset records weekly and season-total attendance for every NFL team from 2000 to 2019. The plot shows total league attendance by season.\nEach game appears twice in the data, once for each team, so the weekly totals are divided by two.\n\n\nCode\nlibrary(tidyverse)\n\nattendance &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2020/2020-02-04/attendance.csv')\n\nattendance |&gt;\n  group_by(year) |&gt;\n  summarize(league_total = sum(weekly_attendance, na.rm = TRUE) / 2) |&gt;\n  ggplot(aes(x = year, y = league_total / 1000000)) +\n  geom_line() +\n  geom_point() +\n  labs(x = \"Season\", y = \"Total attendance (millions)\",\n       title = \"NFL total attendance by season, 2000 to 2019\")\n\n\n\n\n\n\n\n\n\nData source: TidyTuesday, February 4, 2020.\nOriginal data: Sports Reference LLC. (2020). NFL attendance and team standings, 2000 to 2019. Pro Football Reference. https://www.pro-football-reference.com/years/2019/attendance.htm"
   }
 ]
