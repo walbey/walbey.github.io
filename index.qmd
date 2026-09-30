@@ -11,7 +11,7 @@ about:
       href: https://www.linkedin.com/in/williamalbrecht/
       target: _blank
     - text: GitHub
-      href: https://github.com/walbey
+      href: https://github.com/walbey/walbey.github.io
       target: _blank 
     - text: Email
       href: mailto:wcab2025@mymail.pomona.edu

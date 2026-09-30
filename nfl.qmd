@@ -29,6 +29,8 @@ attendance |>
 
 ```
 
+NFL total attendance was lowest in 2001, at about 16.3 million total attendees, but jumped sharply to a little less than 17 million total attendees in 2002. The attendance continued to grow until 2006, and then fell until 2010. It grew again after 2010 with the exception of the 2015 season, and peaked at about 17.79 million total attendees in 2016. Attendance fell after that, ending at just above 17 million people in 2019. 
+
 Data source: [TidyTuesday, February 4, 2020](https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-04/readme.md).
 
 Original data: The data comes from the Pro Football Reference website, published by Sports Reference LLC. Each individual year was obtained from each year's NFL attendance page; see 2019's attendance data [here](https://www.pro-football-reference.com/years/2019/attendance.htm).
