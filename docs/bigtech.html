@@ -383,9 +383,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>big_tech <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv'</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>big_tech_stock_prices <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv'</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>big_tech <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>big_tech_stock_prices <span class="sc">|&gt;</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stock_symbol <span class="sc">==</span> <span class="st">"AAPL"</span> <span class="sc">|</span> stock_symbol <span class="sc">==</span> <span class="st">"MSFT"</span> <span class="sc">|</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>         stock_symbol <span class="sc">==</span> <span class="st">"NVDA"</span> <span class="sc">|</span> stock_symbol <span class="sc">==</span> <span class="st">"AMZN"</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> adj_close, <span class="at">color =</span> stock_symbol)) <span class="sc">+</span></span>
@@ -401,8 +401,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<p><strong>Data source:</strong> <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md">TidyTuesday, February 7, 2023</a>.</p>
-<p>Original data: Gower, E. (2023). <em>Big Tech Stock Prices</em> [Data set]. Kaggle. https://www.kaggle.com/datasets/evangower/big-tech-stock-prices (sourced from Yahoo Finance).</p>
+<p>Data source: <a href="https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md">TidyTuesday, February 7, 2023</a>.</p>
+<p>Original data: Gower, Ethan. (2023). The Big Tech Stock Prices Data set comes from Yahoo Finance and was obtained through <a href="https://www.kaggle.com/datasets/evangower/big-tech-stock-prices">Kaggle</a></p>
 
 
 

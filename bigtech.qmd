@@ -1,7 +1,6 @@
 ---
 title: "Big Tech Stock Prices"
-description: |
-  Analysis of Big Tech stock price data from TidyTuesday
+description: "Analysis of Big Tech stock price data from TidyTuesday"
 author: Will Albrecht
 date: September 29, 2026
 format:
@@ -20,18 +19,16 @@ so prices from different years can be compared directly.
 ```{r}
 library(tidyverse)
 
-big_tech <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv')
+big_tech_stock_prices <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2023/2023-02-07/big_tech_stock_prices.csv')
 
-big_tech |>
-  filter(stock_symbol == "AAPL" | stock_symbol == "MSFT" |
-         stock_symbol == "NVDA" | stock_symbol == "AMZN") |>
-  ggplot(aes(x = date, y = adj_close, color = stock_symbol)) +
-  geom_line() +
-  labs(x = "Date", y = "Adjusted close (USD)", color = "Ticker",
-       title = "Adjusted closing price, 2010 to 2022")
+big_tech_stock_prices |>
+    filter(stock_symbol == "AAPL" | stock_symbol == "MSFT" | stock_symbol == "NVDA" | stock_symbol == "AMZN")
+    ggplot(aes(x = date, y = adj_close, color = stock_symbol)) + 
+    geom_line() +
+    labs(x = "Dat", y = "Adjusted close price (USD)", color = "Ticker", title = "Adjusted closing price, 2010 to 2022")
+
 ```
 
-**Data source:** [TidyTuesday, February 7, 2023](https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md).
+Data source: [TidyTuesday, February 7, 2023](https://github.com/rfordatascience/tidytuesday/blob/main/data/2023/2023-02-07/readme.md).
 
-Original data: Gower, E. (2023). *Big Tech Stock Prices* [Data set]. Kaggle.
-https://www.kaggle.com/datasets/evangower/big-tech-stock-prices (sourced from Yahoo Finance).
+Original data: Gower, Ethan. (2023). The Big Tech Stock Prices Data set comes from Yahoo Finance and was obtained through [Kaggle](https://www.kaggle.com/datasets/evangower/big-tech-stock-prices)
