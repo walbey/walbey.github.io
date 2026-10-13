@@ -1,0 +1,32 @@
+---
+title: "Shakespeare Dialogue"
+description: "Analysis of the usage of 'love' from Romeo and Juliet characters"
+author: William Albrecht
+date: October 12, 2026
+format:
+  html:
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+This dataset contains dialogue from three of Shakespeare's most recognized works: Hamlet, Macbeth, and Romeo and Juliet. I will only be working with Romeo and Juiliet, which was one of my favorite high school readings.
+
+```{r}
+library(tidyverse)
+
+romeo_juliet <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/romeo_juliet.csv')
+
+romeo_juliet |> 
+    filter(character != "[stage direction]") |>
+    mutate(randj_vs_everybodyelse = if_else(character == "Romeo" | character == "Juliet", "Romeo and Juliet", "Everyone else"))
+
+
+```
+
+[explanation]
+
+Data source: [insert citation here]
+
+Original data: [insert citation here]
