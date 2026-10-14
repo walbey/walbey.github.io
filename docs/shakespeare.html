@@ -389,28 +389,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">'https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-09-17/romeo_juliet.csv'</span>)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>romeo_juliet <span class="sc">|&gt;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>love_rates <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span> </span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">randj_vs_everybodyelse =</span> <span class="fu">if_else</span>(character <span class="sc">==</span> <span class="st">"Romeo"</span> <span class="sc">|</span> character <span class="sc">==</span> <span class="st">"Juliet"</span>, <span class="st">"Romeo and Juliet"</span>, <span class="st">"Everyone else"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">randj_vs_everybodyelse =</span> <span class="fu">if_else</span>(character <span class="sc">==</span> <span class="st">"Romeo"</span> <span class="sc">|</span> character <span class="sc">==</span> <span class="st">"Juliet"</span>, <span class="st">"Romeo and Juliet"</span>, <span class="st">"Everyone else"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">love_count =</span> <span class="fu">str_count</span>(dialogue, <span class="st">"(?i)</span><span class="sc">\\</span><span class="st">blove</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(randj_vs_everybodyelse) <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">total_love =</span> <span class="fu">sum</span>(love_count), <span class="at">total_lines =</span> <span class="fu">n</span>()) <span class="sc">|&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">love_rate =</span> (total_love<span class="sc">/</span>total_lines)<span class="sc">*</span><span class="dv">100</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">randj_vs_everybodyelse =</span> <span class="fu">fct_reorder</span>(randj_vs_everybodyelse, love_rate, <span class="at">.desc =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(love_rates, <span class="fu">aes</span>(<span class="at">x =</span> randj_vs_everybodyelse, <span class="at">y =</span> love_rate, <span class="at">fill =</span> randj_vs_everybodyelse)) <span class="sc">+</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Comparison of 'Love' Rates in Romeo and Juliet"</span>, <span class="at">y =</span> <span class="st">"'Love' per 100 lines"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">fill =</span> <span class="st">"Romeo and Juliet vs. All Other Characters"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3,093 × 6
-   act   scene    character dialogue          line_number randj_vs_everybodyelse
-   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;                   &lt;dbl&gt; &lt;chr&gt;                 
- 1 Act I Prologue Chorus    Two households, …           1 Everyone else         
- 2 Act I Prologue Chorus    In fair Verona, …           2 Everyone else         
- 3 Act I Prologue Chorus    From ancient gru…           3 Everyone else         
- 4 Act I Prologue Chorus    Where civil bloo…           4 Everyone else         
- 5 Act I Prologue Chorus    From forth the f…           5 Everyone else         
- 6 Act I Prologue Chorus    A pair of star-c…           6 Everyone else         
- 7 Act I Prologue Chorus    Whose misadventu…           7 Everyone else         
- 8 Act I Prologue Chorus    Do with their de…           8 Everyone else         
- 9 Act I Prologue Chorus    The fearful pass…           9 Everyone else         
-10 Act I Prologue Chorus    And the continua…          10 Everyone else         
-# ℹ 3,083 more rows</code></pre>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shakespeare_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
 </div>
-<p>[explanation]</p>
+</div>
+<p>This column chart shows that the rate of the word ‘Love’ (case insensitive, including the possessive ‘love’s’ but excluding words like loved, lovely, beloved, etc.), calculated as (total count of ‘Love’ / total lines spoken by the group * 100) is more than twice as high for the two title characters when compared with all other characters combined in Shakespeare’s Romeo and Juliet. The characters Romeo and Juliet have a love rate of about 7.5 per 100 lines, while the other characters’ love rate is about 3.3 per 100 lines. The data doesn’t show who is talking to whom, just the speaker groups’ love rates.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>words_before_love <span class="ot">&lt;-</span> romeo_juliet <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(character <span class="sc">!=</span> <span class="st">"[stage direction]"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">randj_vs_everybodyelse =</span> <span class="fu">if_else</span>(character <span class="sc">==</span> <span class="st">"Romeo"</span> <span class="sc">|</span> character <span class="sc">==</span> <span class="st">"Juliet"</span>, <span class="st">"Romeo and Juliet"</span>, <span class="st">"Everyone else"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(dialogue, <span class="st">"(?i)</span><span class="sc">\\</span><span class="st">blove</span><span class="sc">\\</span><span class="st">b"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">word_before_love =</span> <span class="fu">str_to_lower</span>(<span class="fu">str_extract</span>(dialogue, <span class="st">"(?i)</span><span class="sc">\\</span><span class="st">b</span><span class="sc">\\</span><span class="st">w+(?= love</span><span class="sc">\\</span><span class="st">b)"</span>))) <span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(word_before_love)) <span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">str_detect</span>(word_before_love, <span class="st">"^(my|thy|your)$"</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(words_before_love, <span class="fu">aes</span>(<span class="at">x =</span> word_before_love, <span class="at">fill =</span> randj_vs_everybodyelse)) <span class="sc">+</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"dodge"</span>) <span class="sc">+</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">"Number of lines"</span>, <span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">title =</span> <span class="st">"Distribution of Words That Precede 'Love' in Romeo and Juliet"</span>, <span class="at">fill =</span> <span class="st">"Romeo and Juliet vs. All Other Characters"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="shakespeare_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This bar chart compares the distribution of three possessive words in the dialogue that precede ‘Love’ (case insensitive). I used a lookahead to capture the word before ‘love’ or ‘love’s’ in Shakespeare’s Romeo and Juliet. The two title characters say ‘my’ before ‘love’ much more often than all of the other characters combined (8 times vs.&nbsp;1), whereas ‘thy’ precedes love for all other characters one more time than for the two title characters (5 times vs.&nbsp;4). ‘Your’ comes before love one more time for all of the other characters (2 vs.&nbsp;1). There are only 21 total lines where my, thy, or your precede love, out of 123 total lines with a word before love; it is quite small. The gaps between character groups for the possessives ‘thy’ and ‘your’ are only one instance, so it doesn’t tell us much about the use of the possessives across the two groups. Romeo and Juliet are the main lovers in the play, and speak about their own feelings of love frequently, which likely explains why ‘my’ precedes the word ‘love’ more for the two title characters.</p>
 <p>Data source: [insert citation here]</p>
 <p>Original data: [insert citation here]</p>
 
