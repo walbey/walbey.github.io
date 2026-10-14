@@ -2,7 +2,7 @@
 title: "Shakespeare Dialogue"
 description: "Analysis of the usage of 'love' from Romeo and Juliet characters"
 author: William Albrecht
-date: October 12, 2026
+date: October 14, 2026
 format:
   html:
     code-fold: true
