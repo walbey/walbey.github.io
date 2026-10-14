@@ -11,7 +11,7 @@ execute:
   message: false
 ---
 
-This dataset contains dialogue from three of Shakespeare's most recognized works: Hamlet, Macbeth, and Romeo and Juliet. I will only be working with Romeo and Juliet, which was one of my favorite high school readings. The two questions I aim to answer with these data visualizations are: 1. How frequently do Romeo and Juliet say the word 'love' compared to all other characters combined? 2. What are some words that come before 'love' and how do they vary across the two character groups (Romeo and Juliet vs. everyone else)?
+This TidyTuesday dataset provides dialogue from three of Shakespeare's most recognized works: Hamlet, Macbeth, and Romeo and Juliet. I will only be working with Romeo and Juliet, which was one of my favorite high school readings. The two questions I aim to answer with these data visualizations are: 1. How frequently do Romeo and Juliet say the word 'love' compared to all other characters combined? 2. What are some words that come before 'love' and how do they vary across the two character groups (Romeo and Juliet vs. everyone else)?
 
 ```{r}
 library(tidyverse)
