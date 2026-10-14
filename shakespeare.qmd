@@ -33,7 +33,7 @@ ggplot(love_rates, aes(x = randj_vs_everybodyelse, y = love_rate, fill = randj_v
 
 ```
 
-This column chart shows that the rate of the word 'Love' (case insensitive, including the possessive 'love's' but excluding words like loved, lovely, beloved, etc.), calculated as (total count of 'Love' / total lines spoken by the group * 100) is more than twice as high for the two title characters when compared with all other characters combined in Shakespeare's Romeo and Juliet. The characters Romeo and Juliet have a love rate of about 7.5 per 100 lines, while the other characters' love rate is about 3.3 per 100 lines. The data doesn't show who is talking to whom, just the speaker groups' love rates.
+This column chart shows that the rate of the word 'Love' (case insensitive, including the possessive 'love's' but excluding words like loved, lovely, beloved, etc.), calculated as ((total count of the word 'Love' / total lines spoken by the speaker group) * 100) is more than twice as high for the two title characters when compared with all other characters combined in Shakespeare's Romeo and Juliet. The characters Romeo and Juliet have a love rate of about 7.5 per 100 lines, while the other characters' love rate is about 3.3 per 100 lines. The data doesn't show who is talking to whom, just the speaker groups' love rates.
 
 ```{r}
 words_before_love <- romeo_juliet |> 
