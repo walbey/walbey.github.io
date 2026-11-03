@@ -29,6 +29,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -351,6 +386,19 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>The <a href="https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes">Pomona room draw</a> is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class on a different day, for students to select their place of residence for the next school year. The most sought-after rooms (Sontag/Dialynas suites) go the quickest; however, students can group up with a friend and adopt the earlier time to get a better room. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the most sought-after rooms on campus were all gone by 5:27pm for Fall 2025 housing) change as group size goes from 1 to 8 (note there are no groups of 7). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="co">#random order for 4 students in group</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest of the 4</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 peeople per group, one group every 3 minutes. 10 groups up to 5:27, so the most saught-after rooms are taken by the first 40 students.</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>good_room</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
 
 
 
