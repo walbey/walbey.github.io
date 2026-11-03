@@ -17,6 +17,8 @@ website:
             href: nfl.qmd
           - text: "Shakespeare Dialogue"
             href: shakespeare.qmd
+          - text: "Room Draw Simulation"
+            href: roomdraw.qmd
 
 format:
   html:
