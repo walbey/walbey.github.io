@@ -14,9 +14,26 @@ execute:
 The [Pomona room draw](https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes) is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class on a different day, for students to select their place of residence for the next school year. The most sought-after rooms (Sontag/Dialynas suites) go the quickest; however, students can group up with a friend and adopt the earlier time to get a better room. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the most sought-after rooms on campus were all gone by 5:27pm for Fall 2025 housing) change as group size goes from 1 to 8 (note there are no groups of 7). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.
 
 ```{r}
+library(tidyverse)
+
+room_draw <- \(group_size) {
 rand_students <- sample(1:325) #random sample of the class
-student_group <- rand_students[1:4] #random order for 4 students in group
+student_group <- rand_students[1:group_size] #random times from sample for each student in a given group size
 earliest_student <- min(student_group) #earliest of the 4
-good_room <- earliest_student <= 40 #4 peeople per group, one group every 3 minutes. 10 groups up to 5:27, so the most saught-after rooms are taken by the first 40 students.
-good_room
+good_room <- earliest_student <= 40 #4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.
+return(good_room)
+}
+room_draw_simulation <- \(group_size) {
+ return(data.frame(
+    group_size = group_size, 
+    good_room_prob = mean(
+        map_lgl(1:1000, \(i) room_draw(group_size))))) #runs the room_draw function with an inputted group_size 1000 times and finds the proportion of successful draws (mean of TRUE = 1 and FALSE = 0 gives proportion of TRUE)
+}
+possible_groups = c(1,2,3,4,5,6,8)
+results <- list_rbind(map(possible_groups, room_draw_simulation)) #list_rbind stacks the rows into one per group size
+results
+
+ggplot(results, aes(x = group_size, y = good_room_prob)) + 
+    geom_line() + 
+    labs(title = "Group Size vs. Probability of Drawing a Good Room", x = "Group size", y = "Probability of getting a good room")
 ```

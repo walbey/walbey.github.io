@@ -389,14 +389,47 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>] <span class="co">#random order for 4 students in group</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest of the 4</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 peeople per group, one group every 3 minutes. 10 groups up to 5:27, so the most saught-after rooms are taken by the first 40 students.</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>good_room</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>room_draw <span class="ot">&lt;-</span> \(group_size) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span>group_size] <span class="co">#random times from sample for each student in a given group size</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest of the 4</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(good_room)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>room_draw_simulation <span class="ot">&lt;-</span> \(group_size) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_size =</span> group_size, </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">good_room_prob =</span> <span class="fu">mean</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map_lgl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, \(i) <span class="fu">room_draw</span>(group_size))))) <span class="co">#runs the room_draw function with an inputted group_size 1000 times and finds the proportion of successful draws (mean of TRUE = 1 and FALSE = 0 gives proportion of TRUE)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>possible_groups <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">list_rbind</span>(<span class="fu">map</span>(possible_groups, room_draw_simulation)) <span class="co">#list_rbind stacks the rows into one per group size</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] TRUE</code></pre>
+<pre><code>  group_size good_room_prob
+1          1          0.114
+2          2          0.233
+3          3          0.336
+4          4          0.451
+5          5          0.492
+6          6          0.562
+7          8          0.674</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="at">x =</span> group_size, <span class="at">y =</span> good_room_prob)) <span class="sc">+</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Group Size vs. Probability of Drawing a Good Room"</span>, <span class="at">x =</span> <span class="st">"Group size"</span>, <span class="at">y =</span> <span class="st">"Probability of getting a good room"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="roomdraw_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
 </div>
 </div>
 
