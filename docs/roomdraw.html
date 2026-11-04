@@ -385,53 +385,61 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The <a href="https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes">Pomona room draw</a> is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class on a different day, for students to select their place of residence for the next school year. The most sought-after rooms (Sontag/Dialynas suites) go the quickest; however, students can group up with a friend and adopt the earlier time to get a better room. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the most sought-after rooms on campus were all gone by 5:27pm for Fall 2025 housing) change as group size goes from 1 to 8 (note there are no groups of 7). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.</p>
+<p>The <a href="https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes">Pomona room draw</a> is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class registering on a different day, for students to select their place of residence for the next school year. This analysis focuses on rising seniors, as they are the first class to register and therefore have access to the nicest rooms. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the time the last Sontag/Dialynas suite [a suite of 4] was selected in Fall 2025) change as group size goes from 1 to 8 (note there are no groups of 7 and students can group up with a friend and adopt the earliest time to get a better room). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.</p>
+<p>The room_draw function produces one random sample of all seniors’ positions in the housing draw, takes the earliest position of the group of students (the random time the student is assigned if group size is 1), and checks whether the group time is 40 or lower (5:27pm is when the last Sontag/Dialynas suite of 4 was selected, and at 4 students every 3 minutes starting at 5, that leaves 40 students with times that give them a good room). The room_draw_simulation function repeats the room_draw function 10,000 times and calculates the share of successful group room draws. The first map_lgl runs the room_draw 10000 times, and the second map runs the room_draw_simulation for each possible student group (1, 2, 3, 4, 5, 6, 8).</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>room_draw <span class="ot">&lt;-</span> \(group_size) {</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span>group_size] <span class="co">#random times from sample for each student in a given group size</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest of the 4</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(good_room)</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>room_draw_simulation <span class="ot">&lt;-</span> \(group_size) {</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(<span class="fu">data.frame</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_size =</span> group_size, </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">good_room_prob =</span> <span class="fu">mean</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map_lgl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span>, \(i) <span class="fu">room_draw</span>(group_size))))) <span class="co">#runs the room_draw function with an inputted group_size 1000 times and finds the proportion of successful draws (mean of TRUE = 1 and FALSE = 0 gives proportion of TRUE)</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>possible_groups <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">list_rbind</span>(<span class="fu">map</span>(possible_groups, room_draw_simulation)) <span class="co">#list_rbind stacks the rows into one per group size</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">47</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>room_draw <span class="ot">&lt;-</span> \(group_size) {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span>group_size] <span class="co">#random times from sample for each student in a given group size</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest student housing draw time out of the group</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(good_room)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>room_draw_simulation <span class="ot">&lt;-</span> \(group_size) {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a> <span class="fu">return</span>(<span class="fu">data.frame</span>(</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">group_size =</span> group_size, </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">good_room_prob =</span> <span class="fu">mean</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="fu">map_lgl</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10000</span>, \(i) <span class="fu">room_draw</span>(group_size))))) <span class="co">#runs the room_draw function with an inputted group_size 10000 times and finds the proportion of successful draws (mean of TRUE = 1 and FALSE = 0 gives proportion of TRUE)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>possible_groups <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">list_rbind</span>(<span class="fu">map</span>(possible_groups, room_draw_simulation)) <span class="co">#list_rbind stacks the rows into one per group size</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>  group_size good_room_prob
-1          1          0.114
-2          2          0.233
-3          3          0.336
-4          4          0.451
-5          5          0.492
-6          6          0.562
-7          8          0.674</code></pre>
+1          1         0.1241
+2          2         0.2276
+3          3         0.3303
+4          4         0.4114
+5          5         0.4857
+6          6         0.5444
+7          8         0.6553</code></pre>
 </div>
+</div>
+<p>The table above displays each potential group size, and the proportion of randomly sampled times that give a good room to the group. The columns are group size and good room probability, which is calculated as the average of the TRUE or FALSE values given if the earliest time in the group is less than or equal to 40. The students who choose not to group have about a 12% chance of getting a good room, while the group of 8 has roughly a 66% probability.</p>
+<div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(results, <span class="fu">aes</span>(<span class="at">x =</span> group_size, <span class="at">y =</span> good_room_prob)) <span class="sc">+</span> </span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Group Size vs. Probability of Drawing a Good Room"</span>, <span class="at">x =</span> <span class="st">"Group size"</span>, <span class="at">y =</span> <span class="st">"Probability of getting a good room"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Group Size vs. Probability of Drawing a Good Room"</span>, <span class="at">x =</span> <span class="st">"Group size"</span>, <span class="at">y =</span> <span class="st">"Probability of getting a good room"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="roomdraw_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="roomdraw_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
+<p>This graph illustrates the relationship between group size and the probability of drawing a good room. The line rises from about 0.12 probability of getting a good room at group size of 1 to a probability of about 0.66 once the group reaches 8 students. Each additional student added to the group increases their likelihood of getting a good room, with the first two friends added increasing the probability by about 0.1. The gain per extra person added falls after that point (about 0.08, then 0.07, then 0.06, and about 0.06 per person from 6 to 8).</p>
+<p>In this simulation, I ran the room draw on one class of 325 students, the number of seniors who selected housing in the Fall 2025 room draw; note that group size 7 is not included because the HRL website lists no room type for groups of that size. The probability that a randomly assigned time gives a student a good room rises from about a 0.12 probability to about a 0.66 probability as group size increases. Every member’s position in the group is random and independent, and the cutoff is the 40th position (the students whose earliest group times are from 5:00pm to 5:27pm); however, the model treats every group member as a senior in the same selection pool whereas, in reality, seniors can pull juniors and sophomores into their group. The numbers obtained are simulation estimates, with a small margin of error (about plus or minus 0.01 at 10,000 trials).</p>
 
 
 
