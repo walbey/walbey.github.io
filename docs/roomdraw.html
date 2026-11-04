@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="William Albrecht">
-<meta name="dcterms.date" content="2026-11-02">
+<meta name="dcterms.date" content="2026-11-04">
 <meta name="description" content="Simulation of Pomona College Housing Room Draw">
 
 <title>Room Draw Simulation – William Albrecht</title>
@@ -373,7 +373,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 2, 2026</p>
+      <p class="date">November 4, 2026</p>
     </div>
   </div>
   
@@ -385,7 +385,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The <a href="https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes">Pomona room draw</a> is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class registering on a different day, for students to select their place of residence for the next school year. This analysis focuses on rising seniors, as they are the first class to register and therefore have access to the nicest rooms. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the time the last Sontag/Dialynas suite [a suite of 4] was selected in Fall 2025) change as group size goes from 1 to 8 (note there are no groups of 7 and students can group up with a friend and adopt the earliest time to get a better room). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.</p>
+<p>The <a href="https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes">Pomona room draw</a> is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class registering on a different day, for students to select their place of residence for the next school year. This analysis focuses on rising seniors, as they are the first class to register and, along with the juniors, are the only classes allowed into Sontag and Dialynas. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the time the last Sontag/Dialynas suite [a suite of 4] was selected in Fall 2025) change as group size goes from 1 to 8 (note there are no groups of 7 and students can group up with a friend and adopt the earliest time to get a better room). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a “good room”: a group time at or before 5:27pm, but not a guarantee for a specific room, as a group’s size must match a room’s bed count.</p>
 <p>The room_draw function produces one random sample of all seniors’ positions in the housing draw, takes the earliest position of the group of students (the random time the student is assigned if group size is 1), and checks whether the group time is 40 or lower (5:27pm is when the last Sontag/Dialynas suite of 4 was selected, and at 4 students every 3 minutes starting at 5, that leaves 40 students with times that give them a good room). The room_draw_simulation function repeats the room_draw function 10,000 times and calculates the share of successful group room draws. The first map_lgl runs the room_draw 10000 times, and the second map runs the room_draw_simulation for each possible student group (1, 2, 3, 4, 5, 6, 8).</p>
 <div class="cell">
 <details class="code-fold">
@@ -397,7 +397,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>rand_students <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">325</span>) <span class="co">#random sample of the class</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>student_group <span class="ot">&lt;-</span> rand_students[<span class="dv">1</span><span class="sc">:</span>group_size] <span class="co">#random times from sample for each student in a given group size</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>earliest_student <span class="ot">&lt;-</span> <span class="fu">min</span>(student_group) <span class="co">#earliest student housing draw time out of the group</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>good_room <span class="ot">&lt;-</span> earliest_student <span class="sc">&lt;=</span> <span class="dv">40</span> <span class="co">#4 people per time slot, one time slot every 3 minutes. 10 slots up to 5:27, so the most sought-after rooms are taken by the first 40 students.</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">return</span>(good_room)</span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>room_draw_simulation <span class="ot">&lt;-</span> \(group_size) {</span>

@@ -2,7 +2,7 @@
 title: "Room Draw Simulation"
 description: "Simulation of Pomona College Housing Room Draw"
 author: William Albrecht
-date: November 2, 2026
+date: November 4, 2026
 format:
   html:
     code-fold: true
@@ -11,7 +11,7 @@ execute:
   message: false
 ---
 
-The [Pomona room draw](https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes) is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class registering on a different day, for students to select their place of residence for the next school year. This analysis focuses on rising seniors, as they are the first class to register and therefore have access to the nicest rooms. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the time the last Sontag/Dialynas suite [a suite of 4] was selected in Fall 2025) change as group size goes from 1 to 8 (note there are no groups of 7 and students can group up with a friend and adopt the earliest time to get a better room). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a time at or before 5:27pm, because working it out by hand is quite difficult.
+The [Pomona room draw](https://www.pomona.edu/administration/housing-residence-life/housing-selection-and-processes) is a random assignment of a time, starting at 5:00pm and running one slot every 3 minutes with 4 students per slot, and with each class registering on a different day, for students to select their place of residence for the next school year. This analysis focuses on rising seniors, as they are the first class to register and, along with the juniors, are the only classes allowed into Sontag and Dialynas. The question I hope to solve through this simulation is how the chances of getting a group time at or before 5:27pm (the time the last Sontag/Dialynas suite [a suite of 4] was selected in Fall 2025) change as group size goes from 1 to 8 (note there are no groups of 7 and students can group up with a friend and adopt the earliest time to get a better room). I plan on simulating multiple random room draws and estimating the probability of each group size achieving a "good room": a group time at or before 5:27pm, but not a guarantee for a specific room, as a group's size must match a room's bed count.
 
 The room_draw function produces one random sample of all seniors' positions in the housing draw, takes the earliest position of the group of students (the random time the student is assigned if group size is 1), and checks whether the group time is 40 or lower (5:27pm is when the last Sontag/Dialynas suite of 4 was selected, and at 4 students every 3 minutes starting at 5, that leaves 40 students with times that give them a good room). The room_draw_simulation function repeats the room_draw function 10,000 times and calculates the share of successful group room draws. The first map_lgl runs the room_draw 10000 times, and the second map runs the room_draw_simulation for each possible student group (1, 2, 3, 4, 5, 6, 8).
 
@@ -23,7 +23,7 @@ room_draw <- \(group_size) {
 rand_students <- sample(1:325) #random sample of the class
 student_group <- rand_students[1:group_size] #random times from sample for each student in a given group size
 earliest_student <- min(student_group) #earliest student housing draw time out of the group
-good_room <- earliest_student <= 40 #4 people per group, one group every 3 minutes. 10 groups up to 5:27, so the most sought-after rooms are taken by the first 40 students.
+good_room <- earliest_student <= 40 #4 people per time slot, one time slot every 3 minutes. 10 slots up to 5:27, so the most sought-after rooms are taken by the first 40 students.
 return(good_room)
 }
 room_draw_simulation <- \(group_size) {
