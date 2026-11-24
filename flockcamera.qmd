@@ -1,0 +1,14 @@
+---
+title: "Data & Power: Ethics of Flock Safety Use"
+description: "Ethical Considerations of Recent Flock Safety Operational Changes "
+author: William Albrecht
+date: November 23, 2026
+format:
+  html:
+    code-fold: true
+execute:
+  warning: false
+  message: false
+---
+
+Flock Safety, a privately-held U.S. company, has raised almost $1 billion in funding since its inception in 2017. It creates and sells solar-powerd automated license plate readers (ALPRS), now totalling over 120,000 and present in every state.
