@@ -11,4 +11,23 @@ execute:
   message: false
 ---
 
-Flock Safety, a privately-held U.S. company, has raised almost $1 billion in funding since its inception in 2017. It creates and sells solar-powerd automated license plate readers (ALPRS); more than 120,000 cameras are in service, installed on streets in every U.S. state. The cameras collect visual data on every single car that passes by, and AI interprets the image and stores descriptions of each car into their centralized database. Flock users can search by license plate, car make and color, or smaller details like bumper stickers and roof racks. The software also uses AI to determine private movement patterns and can report which vehicles have visited a location of interest. 
+**Introduction**
+
+Flock Safety, a surveillance company founded in 2017, has raised nearly $1 billion in venture capital funding (Marlow, 2026; University of Washington Center for Human Rights [UWCHR], 2025). It creates and sells solar-powered automated license plate readers (ALPRs); more than 120,000 cameras are in service nationwide (Marlow, 2026; UWCHR, 2025). The cameras collect visual data on every single car that passes by, and AI interprets the images and stores descriptions of each car in Flock's centralized database (UWCHR, 2025). Flock users can search by license plate, car make and color, or smaller details like bumper stickers and roof racks (UWCHR, 2025). The software can also analyze movement patterns and list vehicles that have visited a location of interest (UWCHR, 2025). Each customer controls its own network of cameras and chooses whether to share its data with agencies in the same state, within a set radius, nationwide, with specific agencies, or not at all (UWCHR, 2025). Many businesses and neighborhood associations choose to share their camera data with police, including Home Depot and Lowe's (UWCHR, 2025). 
+
+Every search requires the user to enter a reason (UWCHR, 2025). Agencies also get monthly audits, displaying who searched, the license plate, the reason, and the case number, but the audits show only what was searched, not what the search found (UWCHR, 2025). In May 2025, 404 Media revealed that police had searched Flock's network on behalf of ICE. These searches came to light only because the officers entered "ICE" or "illegal immigration" as the reason for the search (404 Media, as cited in UWCHR, 2025). That same month, a user from the Johnson County Sheriff's office in Texas searched the Prosser, Washington, police department's Flock network. The reason they entered was "had an abortion, search for female" (UWCHR, 2025). Once an agency has access to a network, the only thing standing between an officer and a driver's location history is the reason that the officer types into the search field. UW researchers call this reliance on officer-entered reasons "inherently problematic" (UWCHR, 2025). If an officer wants to search for someone who had an abortion or on behalf of ICE, the search goes through regardless; the only difference that a vague reason makes is that no one can tell afterward what the search was for.
+
+
+**Permission Structure**
+
+A permission structure is the set of rules for who may access the data and for what purpose. The question is whether Flock's rules hold up. Flock has two facets to their permission structure: the network owner deciding who can access the data they capture, and the reason field (why the data was requested). From at least May 9 to August 24, 2025, there were "thousands of searches by 'US Border Patrol [Federal]'" (UWCHR, 2025). These show up in the audits of at least ten Washington municipalities that "did not explicitly authorize Border Patrol searches, " including Prosser and Renton (UWCHR, 2025).
+
+The search term tool, allegedly implemented to block impermissible searches, is easy to get around, as officers can input reasons like "investigation" or even "hehehe", and still be approved for a search (Marlow, 2026).
+
+
+
+**References**
+
+Marlow, C. (2026, August 13). *Despite 'new' updates, Flock's creepy cameras remain major civil liberties threat*. American Civil Liberties Union. https://www.aclu.org/news/privacy-technology/tracking-alpr-cameras/despite-new-updates-flocks-creepy-cameras-remain-major-civil-liberties-threat
+
+University of Washington Center for Human Rights. (2025, October 21). *Leaving the door wide open: Flock surveillance systems expose Washington data to immigration enforcement*. https://jsis.washington.edu/humanrights/2025/10/21/leaving-the-door-wide-open/
